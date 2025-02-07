@@ -26,7 +26,7 @@ except Exception as e:
 #     st.error(f"Error when loading chart: {e}")
 #     st.stop()
 
-with open(r"C:\Users\user\Documents\python\Project Stock\chart.pkl", "rb") as f:
+with open("chart.pkl", "rb") as f:
     loaded_charts = pickle.load(f)
 
 
