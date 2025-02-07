@@ -18,12 +18,12 @@ except Exception as e:
     st.error(f"Error when loading model: {e}")
     st.stop()
     
-try:
-    loaded_charts = jb.load("chart.pkl")
-    loaded_charts_rolling = jb.load("chart_rolling.pkl")
-except Exception as e:
-    st.error(f"Error when loading chart: {e}")
-    st.stop()
+# try:
+#     loaded_charts = jb.load("chart.pkl")
+#     loaded_charts_rolling = jb.load("chart_rolling.pkl")
+# except Exception as e:
+#     st.error(f"Error when loading chart: {e}")
+#     st.stop()
 
 tickers = ["FPT.VN", 'HPG.VN','MWG.VN', 'VNM.VN', 'VCB.VN']
 stocks = {}
@@ -42,10 +42,27 @@ tab1, tab2= st.tabs(["📊 Chart", "💰 Prediction Close Price"])
 with tab1:
     st.header("📊 Biểu đồ dữ liệu")
 
-    companies = list(loaded_charts.keys())
+    # companies = list(loaded_charts.keys())
+    companies = ["FPT", 'HPG','MWG', 'VNM', 'VCB']
     selected_company = st.selectbox("Chọn công ty:", companies)
-    st.pyplot(loaded_charts[selected_company])
-    st.pyplot(loaded_charts_rolling[selected_company])
+    if selected_company == "FPT":
+        st.image(r'Photos\FPT_price.png')
+        st.image(r'Photos\FPT_rolling.png')
+    elif selected_company == "HPG":
+        st.image(r'Photos\HPG_price.png')
+        st.image(r'Photos\HPG_rolling.png')
+    elif selected_company == "MWG":
+        st.image(r'Photos\MWG_price.png')
+        st.image(r'Photos\MWG_rolling.png')
+    elif selected_company == "VNM":
+        st.image(r'Photos\VNM_price.png')
+        st.image(r'Photos\VNM_rolling.png')
+    else:
+        st.image(r'Photos\VCB_price.png')
+        st.image(r'Photos\VCB_rolling.png')
+
+    # st.pyplot(loaded_charts[selected_company])
+    # st.pyplot(loaded_charts_rolling[selected_company])
 
 # Tab 2 - Prediction
 with tab2:
