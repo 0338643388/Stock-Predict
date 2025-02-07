@@ -46,20 +46,20 @@ with tab1:
     companies = ["FPT", 'HPG','MWG', 'VNM', 'VCB']
     selected_company = st.selectbox("Chọn công ty:", companies)
     if selected_company == "FPT":
-        st.image(r'Photos\FPT_price.png')
-        st.image(r'Photos\FPT_rolling.png')
+        st.image(r'Photos/FPT_price.png')
+        st.image(r'Photos/FPT_rolling.png')
     elif selected_company == "HPG":
-        st.image(r'Photos\HPG_price.png')
-        st.image(r'Photos\HPG_rolling.png')
+        st.image(r'Photos/HPG_price.png')
+        st.image(r'Photos/HPG_rolling.png')
     elif selected_company == "MWG":
-        st.image(r'Photos\MWG_price.png')
-        st.image(r'Photos\MWG_rolling.png')
+        st.image(r'Photos/MWG_price.png')
+        st.image(r'Photos/MWG_rolling.png')
     elif selected_company == "VNM":
-        st.image(r'Photos\VNM_price.png')
-        st.image(r'Photos\VNM_rolling.png')
+        st.image(r'Photos/VNM_price.png')
+        st.image(r'Photos/VNM_rolling.png')
     else:
-        st.image(r'Photos\VCB_price.png')
-        st.image(r'Photos\VCB_rolling.png')
+        st.image(r'Photos/VCB_price.png')
+        st.image(r'Photos/VCB_rolling.png')
 
     # st.pyplot(loaded_charts[selected_company])
     # st.pyplot(loaded_charts_rolling[selected_company])
