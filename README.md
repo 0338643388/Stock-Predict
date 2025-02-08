@@ -56,8 +56,7 @@ streamlit run app.py
 ```bash
 http://localhost:8501
 ```.
-4. Select a stock from the dropdown menu to view historical charts and predictions.
-
+3. Select a stock from the dropdown menu to view historical charts and predictions.
 
 ## Data Sources
 The project uses historical stock price data from sources like:
