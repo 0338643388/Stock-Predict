@@ -55,7 +55,8 @@ streamlit run app.py
 2. Open the browser and go to
 ```bash
 http://localhost:8501
-```.
+```
+.
 3. Select a stock from the dropdown menu to view historical charts and predictions.
 
 ## Data Sources
