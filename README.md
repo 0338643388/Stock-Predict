@@ -72,7 +72,7 @@ The project includes scripts for training different models. The primary steps ar
 6. **Model Serialization**: Saved using joblib for deployment.
 
 ## Deployment
-The project is deployed on Streamlit Cloud. You can access it here:
+The project is deployed on **Streamlit Cloud**. You can access it here:
 🔗 [Stock Price Prediction App](https://stock-predict-dr9faqumhea7uthcgoq7cy.streamlit.app/)
 
 ## Contributing
