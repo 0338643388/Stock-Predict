@@ -56,7 +56,6 @@ streamlit run app.py
 ```bash
 http://localhost:8501
 ```
-.
 3. Select a stock from the dropdown menu to view historical charts and predictions.
 
 ## Data Sources
@@ -74,7 +73,7 @@ The project includes scripts for training different models. The primary steps ar
 
 ## Deployment
 The project is deployed on Streamlit Cloud. You can access it here:
-
+🔗 [Stock Price Prediction App](https://stock-predict-dr9faqumhea7uthcgoq7cy.streamlit.app/)
 
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
