@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import joblib
+import joblib, gzip
 from sklearn.preprocessing import MinMaxScaler
 
 # Forecast function implementations
@@ -178,7 +178,7 @@ def print_forecasts_with_real_dates_meta(company, results_meta_model, stocks, fo
 def load_data():
     stocks = {}
     for ticker in ['HPG','HSG']:
-        path = f'data/{ticker}_price.csv'
+        path = f'Data/{ticker}_price.csv'
         df = pd.read_csv(path, parse_dates=['time'], index_col='time')
         stocks[ticker] = df
     return stocks
@@ -190,7 +190,8 @@ stocks = load_data()
 def load_models():
     lstm = joblib.load("results_LSTM_full.pkl")
     xgb = joblib.load("results_xgb_full.pkl")
-    meta = joblib.load("results_meta_model_full.pkl")
+    with gzip.open('results_meta_model_full.pkl.gz', 'rb') as f:
+        meta = joblib.load(f)
     return lstm, xgb, meta
 
 results_LSTM, results_xgb, results_meta_model  = load_models()
