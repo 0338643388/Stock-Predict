@@ -177,67 +177,39 @@ def print_forecasts_with_real_dates_meta(company, results_meta_model, stocks, fo
 @st.cache_data
 def load_data():
     stocks = {}
+    stocks_fc = {}
     for ticker in ['HPG','HSG']:
         path = f'Data/{ticker}_price.csv'
         df = pd.read_csv(path, parse_dates=['time'], index_col='time')
         stocks[ticker] = df
-    return stocks
+        
+        path_fc = f'Data/{ticker}_forecast.csv'
+        df_fc = pd.read_csv(path_fc)
+        stocks_fc[ticker] = df_fc
+        
+        perf_df = pd.read_csv(f'Data/perf_df.csv')
+    return stocks, stocks_fc, perf_df
 
-stocks = load_data()
+stocks, stocks_fc, perf_df = load_data()
 
 # ---- Load Models ----
-@st.cache_resource
-def load_models():
-    lstm = joblib.load("results_LSTM_full.pkl")
-    xgb = joblib.load("results_xgb_full.pkl")
-    with gzip.open('results_meta_model_full.pkl.gz', 'rb') as f:
-        meta = joblib.load(f)
-    return lstm, xgb, meta
+# @st.cache_resource
+# def load_models():
+#     lstm = joblib.load("results_LSTM_full.pkl")
+#     xgb = joblib.load("results_xgb_full.pkl")
+#     # meta = joblib.load("results_meta_model_full.pkl")
+#     with gzip.open('results_meta_model_full.pkl.gz', 'rb') as f:
+#         meta = joblib.load(f)
+#     return lstm, xgb, meta
 
-results_LSTM, results_xgb, results_meta_model  = load_models()
+# results_LSTM, results_xgb, results_meta_model  = load_models()
 
 
-# ---- Prepare Performance DataFrame ----
-LSTM_perf = pd.DataFrame({
-    comp: {'MAE': res['MAE'], 'MSE': res['MSE'], 'R2': res['R2']} 
-    for comp, res in results_LSTM.items()
-}).T.assign(Model='LSTM')
-XGB_perf = pd.DataFrame({
-    comp: {'MAE': res['MAE'], 'MSE': res['MSE'], 'R2': res['R2']} 
-    for comp, res in results_xgb.items()
-}).T.assign(Model='XGBoost')
-Meta_perf = pd.DataFrame({
-    comp: {'MAE': res['MAE'], 'MSE': res['MSE'], 'R2': res['R2']} 
-    for comp, res in results_meta_model.items()
-}).T.assign(Model='Meta')
-records = []
-for model_name, df in [
-    ('LSTM',    LSTM_perf),
-    ('XGBoost', XGB_perf),
-    ('Meta',    Meta_perf)
-]:
-    for company in df.index:
-        actual = (results_LSTM if model_name=='LSTM' else
-                  results_xgb  if model_name=='XGBoost' else
-                  results_meta_model)[company]['Actual']
-        mean_actual = actual.mean()
 
-        mae = df.loc[company, 'MAE']
-        mse = df.loc[company, 'MSE']
 
-        records.append({
-            'Model':    model_name,
-            'Company':  company,
-            'MAE':      mae,
-            'MAE_pct':  f"{mae/mean_actual*100:.2f}%",
-            'MSE':      mse,
-            'MSE_pct':  f"{mse/mean_actual*100:.2f}%",
-            'R2':       f"{df.loc[company, 'R2'] * 100:.2f}%",
-        })
-
-perf_df = pd.DataFrame(records, columns=[
-    'Model','Company','MAE','MAE_pct','MSE','MSE_pct','R2'
-])
+# perf_df = pd.DataFrame(records, columns=[
+#     'Model','Company','MAE','MAE_pct','MSE','MSE_pct','R2'
+# ])
 
 # ---- Streamlit UI ----
 st.set_page_config(layout="wide")
@@ -261,14 +233,7 @@ sentiment_btn = st.sidebar.button("📰 Phân tích sentiment")
 show_perf = st.sidebar.checkbox("📈 Hiển thị hiệu năng mô hình", value=True)
 
 if forecast_btn:
-    df_forecast = print_forecasts_with_real_dates_meta(
-        company    = ticker,    
-        results_meta_model = results_meta_model,
-        forecast_func = forecast_next_days_meta,
-        stocks      = stocks,
-        time_steps  = 180,
-        n_days      = 5
-    )
+    df_forecast = stocks_fc[ticker]
     st.session_state['df_forecast'] = df_forecast # Save for later use
         
 # Main layout
